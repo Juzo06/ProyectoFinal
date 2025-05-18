@@ -1,15 +1,15 @@
 #include "Pagina.h"
 
 Pagina::Pagina(int orden, int dato){
-    this->clave = new int[orden-1];
-    this->enlace = new Pagina*[orden];
-    this->padre = nullptr;
-    this->clave[0]-dato;
-    this->clavesUsadas = 1;
+    dato = dato;
     this->ordenM = orden;
 }
 
 Pagina::Pagina(){
+    this->clave = new int[ordenM];
+    this->enlace = new Pagina*[ordenM + 1];
+    this->padre = nullptr;
+    this->clavesUsadas = 0;
 }
 
 Pagina::~Pagina(){

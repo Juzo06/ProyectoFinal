@@ -6,12 +6,13 @@ using namespace std;
 class Pagina {
     private:
         int* clave;
-        Pagina* enlace;
+        Pagina** enlace;
         Pagina* padre;
         int clavesUsadas;
         int ordenM;
     public:
-        Pagina(int);
+        Pagina();
+        Pagina(int, int);
         ~Pagina();
         int getClave(int);
         void setClave(int, int);
