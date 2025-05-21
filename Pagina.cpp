@@ -9,7 +9,7 @@ Pagina::Pagina(int orden, int dato){
     for (int i = 0; i < orden; i++)
         this->enlace[i] = nullptr;
     this->clave[0] = dato;
-    this->clavesUsadas = 1;
+    this->clavesUsadas = 0;
     this->ordenM = orden;
 }
 

@@ -134,15 +134,15 @@ void ArbolB::ver(Pagina *nodo, int nivel) {
     if (!nodo) return;
     for (int k = 0; k < nivel; ++k) cout << "  ";
     cout << "[";
-    for (int i = 0; i < nodo->getClavesUsadas(); ++i) {
-        cout << nodo->getClave(i);
+    for (int i = 0; i < nodo->getClavesUsadas(); i++) {
+        cout << nodo->getClave(i); 
         if (i < nodo->getClavesUsadas() - 1) cout << " | ";
     }
     cout << "]";
     if (nodo->getPadre())
         cout << " (Padre: " << nodo->getPadre()->getClave(0) << ")";
     cout << endl;
-    for (int i = 0; i <= nodo->getClavesUsadas(); ++i)
+    for (int i = 0; i <= nodo->getClavesUsadas(); i++)
         ver(nodo->getEnlace(i), nivel + 1);
 }
 
