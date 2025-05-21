@@ -4,7 +4,11 @@ Pagina::Pagina(int orden, int dato){
     this->clave = new int[orden-1];
     this->enlace = new Pagina*[orden];
     this->padre = nullptr;
-    this->clave[0]-dato;
+    for (int i = 0; i < orden-1; i++)
+        this->clave[i] = -1; // Valor que nunca será clave válida
+    for (int i = 0; i < orden; i++)
+        this->enlace[i] = nullptr;
+    this->clave[0] = dato;
     this->clavesUsadas = 1;
     this->ordenM = orden;
 }
