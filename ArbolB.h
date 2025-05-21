@@ -11,11 +11,11 @@ class ArbolB {
         Pagina* getraiz();
         void setraiz(Pagina* raiz);
         int getOrden();
+        int getMinNodos();
         int insertar(int);
         void inserta(int, Pagina*, Pagina*, Pagina*);
-        void inserta(int, Pagina*, Pagina*, Pagina*);
         void mostrar();
-        void ver(Pagina*);
+        void ver(Pagina*, int);
         void BorrarNodo(Pagina*);
         void Borrar(int);
         void Borrarllave(Pagina*, int);

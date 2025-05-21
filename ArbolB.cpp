@@ -13,7 +13,7 @@ Pagina* ArbolB::getraiz() {
     return raiz;
 }
 
-int ArbolB::getNodosminimo() {
+int ArbolB::getMinNodos() {
      int nodosMinimos = (orden - 1) / 2;
      return nodosMinimos;
 }
@@ -41,8 +41,9 @@ int ArbolB::insertar(int dato) {
 }
 
 void ArbolB::inserta(int dato, Pagina *nodo, Pagina *hijo1, Pagina *hijo2) {
-    int i, j, lista[i];
-    Pagina *padre, *nuevo, *listapunt[i];
+    int i, j, lista[orden];
+    Pagina *padre, *nuevo;
+    Pagina**listapunt = new Pagina*[orden + 1];
     bool salir = false;
    // Insertar nueva llave en nodo:
     do {
@@ -124,31 +125,25 @@ void ArbolB::inserta(int dato, Pagina *nodo, Pagina *hijo1, Pagina *hijo2) {
 }
 
 void ArbolB::mostrar() {
-    cout<<"** Arbol **";
-    ver(raiz);
-    cout<<" Fin ";
+    cout << "** Arbol **";
+    ver(raiz, 0); // Pasa el nivel inicial
+    cout << " Fin ";
 }
 
-void ArbolB::ver(Pagina *nodo) {
-   int i;
-   if (!nodo) return;
-   cout << "------------------" << endl;
-   for (i = 0; i < nodo->getClavesUsadas() - 1; i++) {
-      cout << " " << nodo->getClave(i) << " - ";
-   }
-   cout << "------------------" << endl;
-   if (nodo->getClavesUsadas() > 0) {
-      cout << "  " << nodo->getClave(i) << " [ ";
-   }
-   if (nodo->getPadre()) {
-      cout << " padre" << nodo->getPadre()->getClave(0);
-   } else {
-      cout << " * ";
-   }
-   cout << " ]";
-   for (i = 0; i <= nodo->getClavesUsadas(); i++) {
-       ver(nodo->getEnlace(i));
-   }
+void ArbolB::ver(Pagina *nodo, int nivel) {
+    if (!nodo) return;
+    for (int k = 0; k < nivel; ++k) cout << "  ";
+    cout << "[";
+    for (int i = 0; i < nodo->getClavesUsadas(); ++i) {
+        cout << nodo->getClave(i);
+        if (i < nodo->getClavesUsadas() - 1) cout << " | ";
+    }
+    cout << "]";
+    if (nodo->getPadre())
+        cout << " (Padre: " << nodo->getPadre()->getClave(0) << ")";
+    cout << endl;
+    for (int i = 0; i <= nodo->getClavesUsadas(); ++i)
+        ver(nodo->getEnlace(i), nivel + 1);
 }
 
 void ArbolB::BorrarNodo(Pagina *nodo) {
@@ -208,7 +203,7 @@ void ArbolB::Borrarllave(Pagina *nodo, int dato) {
    }
 
    // ¿Es el número de claves mayor que el mínimo para el nodo?
-   if(actual == this->getraiz() || actual->getClavesUsadas() >= this->getNodosminimo())
+   if(actual == this->getraiz() || actual->getClavesUsadas() >= this->getMinNodos())
       return;
    return;
 
@@ -225,9 +220,9 @@ void ArbolB::Borrarllave(Pagina *nodo, int dato) {
       else derecha = NULL;
 
       // Intentar pasar una llave de un nodo cercano:
-      if(derecha && derecha->getClavesUsadas() > this->getNodosminimo())
+      if(derecha && derecha->getClavesUsadas() > this->getMinNodos())
          PasarllaveDerecha(derecha, padre, actual, posllavePadre);
-      else if(izquierda && izquierda->getClavesUsadas() > this->getNodosminimo())
+      else if(izquierda && izquierda->getClavesUsadas() > this->getMinNodos())
          PasarllaveIzquierda(izquierda, padre, actual, posllavePadre-1);
       // Si no fue posible, unir con un nodo cercano y una llave de padre:
       else if(derecha) // Usar nodo derecho
@@ -236,7 +231,7 @@ void ArbolB::Borrarllave(Pagina *nodo, int dato) {
         unirnodo(izquierda, padre, actual, posllavePadre-1);
       // Vuelta a empezar:
       actual = padre;
-   } while(actual && actual != this->getraiz() && actual->getClavesUsadas() < this->getNodosminimo());
+   } while(actual && actual != this->getraiz() && actual->getClavesUsadas() < this->getMinNodos());
 }
 
 void ArbolB::PasarllaveDerecha(Pagina * derecha, Pagina * padre, Pagina * nodo, int posllavePadre) {
